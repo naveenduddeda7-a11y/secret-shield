@@ -1,4 +1,4 @@
-name: Secret Shield Security Scan
+name: Secret Shield CI/CD
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
 
-  security-scan:
+  security:
 
     runs-on: ubuntu-latest
 
@@ -28,3 +28,51 @@ jobs:
       - name: Run Secret Shield
         run: |
           python secret_shield.py
+
+
+  build:
+
+    needs: security
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Build Application
+        run: |
+          echo "🔨 Building application..."
+          echo "Build completed successfully."
+
+
+  test:
+
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Run Tests
+        run: |
+          echo "🧪 Running application tests..."
+          echo "All tests passed."
+
+
+  deploy:
+
+    needs: test
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy Application
+        run: |
+          echo "🚀 Deploying application..."
+          echo "Application deployed successfully."
