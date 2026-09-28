@@ -1,2 +1,6 @@
+import os
+
 username = "admin"
-password = "admin123"
+password = os.getenv("APP_PASSWORD")
+
+print("Application started")
